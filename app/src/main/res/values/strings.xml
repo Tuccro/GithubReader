@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Github Reader</string>
+    <string name="input_username_to_know_more">Input username to know more:</string>
+    <string name="tell_me_more">Tell me more!</string>
+    <string name="some_github_username">some GitHub username</string>
+    <string name="language">language: %s</string>
+    <string name="following">%d\nfollowing</string>
+    <string name="followers">%d\nfollowers</string>
+</resources>

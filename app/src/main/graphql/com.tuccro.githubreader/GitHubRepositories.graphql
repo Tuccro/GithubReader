@@ -1,0 +1,18 @@
+query GetRepositories($login: String!, $perPage: Int!, $nextPageCursor: String)
+{
+    user(login: $login) {
+        repositoriesResult: repositories(first: $perPage, after: $nextPageCursor) {
+            repositories: nodes {
+                url
+                name
+                primaryLanguage{name}
+                forkCount
+                stargazers{totalCount}
+            }
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
+        }
+    }
+}
