@@ -12,7 +12,7 @@ import com.tuccro.githubreader.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
     private lateinit var viewModel: ProfileViewModel
-    private val adapter = ReposListAdapter()
+    private val adapter = RepositoriesListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -10,22 +10,22 @@ import com.tuccro.githubreader.GetRepositoriesQuery
 import com.tuccro.githubreader.R
 import kotlinx.android.synthetic.main.item_repository.view.*
 
+class RepositoriesListAdapter() :
+    PagedListAdapter<GetRepositoriesQuery.Repository, RepositoriesListAdapter.RepositoryViewHolder>(
+        DIFF_CALLBACK
+    ) {
 
-class ReposListAdapter() :
-    PagedListAdapter<GetRepositoriesQuery.Repository, ReposListAdapter.MyViewHolder>(DIFF_CALLBACK) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_repository, parent, false)
-        return MyViewHolder(view)
+        return RepositoryViewHolder(view)
     }
 
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
         getItem(position)?.let { holder.bindRepository(it) }
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class RepositoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameText = itemView.tv_name
         private val languageText = itemView.tv_language
         private val forksText = itemView.tv_forks
@@ -60,6 +60,4 @@ class ReposListAdapter() :
                 }
             }
     }
-
-
 }
