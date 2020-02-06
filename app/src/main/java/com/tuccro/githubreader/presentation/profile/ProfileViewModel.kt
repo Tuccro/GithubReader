@@ -14,17 +14,17 @@ import com.tuccro.githubreader.network.GitHubCoroutinesService
 import com.tuccro.githubreader.network.GitHubDataSource
 import timber.log.Timber
 
-class ProfileViewModel : ViewModel() {
+const val PAGE_SIZE = 10
 
-    val PAGE_SIZE = 10
+class ProfileViewModel : ViewModel() {
     val avatarUrl = ObservableField<String>()
     val name = ObservableField<String>()
-    val followers = ObservableField<Int>(0)
-    val following = ObservableField<Int>(0)
+    val followers = ObservableField(0)
+    val following = ObservableField(0)
 
-    var repositoriesLiveData: LiveData<PagedList<GetRepositoriesQuery.Repository>>? = null
+    private var repositoriesLiveData: LiveData<PagedList<GetRepositoriesQuery.Repository>>? = null
 
-    val config = PagedList.Config.Builder()
+    private val config = PagedList.Config.Builder()
         .setPageSize(PAGE_SIZE)
         .setEnablePlaceholders(false)
         .build()

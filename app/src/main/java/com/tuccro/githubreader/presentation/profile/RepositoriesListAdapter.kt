@@ -10,7 +10,7 @@ import com.tuccro.githubreader.GetRepositoriesQuery
 import com.tuccro.githubreader.R
 import kotlinx.android.synthetic.main.item_repository.view.*
 
-class RepositoriesListAdapter() :
+class RepositoriesListAdapter :
     PagedListAdapter<GetRepositoriesQuery.Repository, RepositoriesListAdapter.RepositoryViewHolder>(
         DIFF_CALLBACK
     ) {
@@ -56,7 +56,7 @@ class RepositoriesListAdapter() :
                     oldItem: GetRepositoriesQuery.Repository,
                     newItem: GetRepositoriesQuery.Repository
                 ): Boolean {
-                    return oldItem.equals(newItem)
+                    return oldItem == newItem
                 }
             }
     }

@@ -65,8 +65,4 @@ class RepositoriesDataSource(private val userName: String) :
         callback: LoadCallback<String, GetRepositoriesQuery.Repository>
     ) {
     }
-
-    override fun invalidate() {
-        super.invalidate()
-    }
 }
