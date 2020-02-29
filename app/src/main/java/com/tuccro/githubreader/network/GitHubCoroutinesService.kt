@@ -3,38 +3,18 @@ package com.tuccro.githubreader.network
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.coroutines.toDeferred
-import com.tuccro.githubreader.BuildConfig
 import com.tuccro.githubreader.GetRepositoriesQuery
 import com.tuccro.githubreader.GetUserInfoQuery
+import com.tuccro.githubreader.model.GitHubDataSource
 import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class GitHubCoroutinesService(
-    private val processContext: CoroutineContext = Dispatchers.IO,
+class GitHubCoroutinesService @Inject constructor(override val apolloClient: ApolloClient) :
+    GitHubDataSource(apolloClient) {
+
+    private val processContext: CoroutineContext = Dispatchers.IO
     private val resultContext: CoroutineContext = Dispatchers.Main
-) : GitHubDataSource() {
-
-    private val apolloClient: ApolloClient by lazy {
-        val okHttpClient = OkHttpClient.Builder()
-            .addNetworkInterceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .addHeader("Authorization", "bearer ${BuildConfig.GITHUB_OAUTH_TOKEN}")
-                    .build()
-
-                chain.proceed(request)
-            }
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .build()
-
-        ApolloClient.builder()
-            .serverUrl(BuildConfig.GITHUB_BASE_URL)
-            .okHttpClient(okHttpClient)
-            .build()
-    }
 
     private var fetchUserJob: Job? = null
     private var fetchRepositoriesJob: Job? = null
@@ -55,7 +35,7 @@ class GitHubCoroutinesService(
         }
     }
 
-    fun fetchRepositories(
+    override fun fetchRepositories(
         userName: String,
         perPage: Int,
         cursor: String?,

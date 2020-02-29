@@ -10,13 +10,14 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.tuccro.githubreader.GetRepositoriesQuery
 import com.tuccro.githubreader.GetUserInfoQuery
-import com.tuccro.githubreader.network.GitHubCoroutinesService
-import com.tuccro.githubreader.network.GitHubDataSource
+import com.tuccro.githubreader.model.GitHubDataSource
 import timber.log.Timber
+import javax.inject.Inject
 
 const val PAGE_SIZE = 10
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel @Inject constructor(private val gitHubDataSource: GitHubDataSource) :
+    ViewModel() {
     val avatarUrl = ObservableField<String>()
     val name = ObservableField<String>()
     val followers = ObservableField(0)
@@ -38,7 +39,7 @@ class ProfileViewModel : ViewModel() {
         val dataSourceFactory =
             object : DataSource.Factory<String, GetRepositoriesQuery.Repository>() {
                 override fun create(): DataSource<String, GetRepositoriesQuery.Repository> {
-                    return RepositoriesDataSource(userName)
+                    return RepositoriesDataSource(userName, gitHubDataSource)
                 }
             }
         return LivePagedListBuilder<String, GetRepositoriesQuery.Repository>(
@@ -46,8 +47,6 @@ class ProfileViewModel : ViewModel() {
             config
         )
     }
-
-    private var gitHubCoroutinesService = GitHubCoroutinesService()
 
     fun start(args: Bundle) {
         val userName = ProfileFragmentArgs.fromBundle(args).userName
@@ -83,7 +82,7 @@ class ProfileViewModel : ViewModel() {
     private fun fetchUser(userName: String) {
         Timber.d("userName $userName")
 
-        gitHubCoroutinesService.fetchUser(userName, object :
+        gitHubDataSource.fetchUser(userName, object :
             GitHubDataSource.ResultCallback<GetUserInfoQuery.User?> {
             override fun onResult(result: GetUserInfoQuery.User?) {
                 Timber.d("onResult $result")
@@ -102,6 +101,6 @@ class ProfileViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        gitHubCoroutinesService.cancelFetching()
+        gitHubDataSource.cancelFetching()
     }
 }

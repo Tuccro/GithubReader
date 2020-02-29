@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tuccro.githubreader.databinding.FragmentProfileBinding
+import com.tuccro.githubreader.presentation.base.BaseFragment
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment() {
+
     private lateinit var viewModel: ProfileViewModel
     private val adapter = RepositoriesListAdapter()
 
@@ -18,7 +19,7 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         retainInstance = true
         viewModel = activity?.run {
-            ViewModelProviders.of(this)[ProfileViewModel::class.java]
+            ViewModelProviders.of(this, factory)[ProfileViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
     }
 

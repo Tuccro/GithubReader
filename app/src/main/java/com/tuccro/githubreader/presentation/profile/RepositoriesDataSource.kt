@@ -2,21 +2,21 @@ package com.tuccro.githubreader.presentation.profile
 
 import androidx.paging.PageKeyedDataSource
 import com.tuccro.githubreader.GetRepositoriesQuery
-import com.tuccro.githubreader.network.GitHubCoroutinesService
-import com.tuccro.githubreader.network.GitHubDataSource
+import com.tuccro.githubreader.model.GitHubDataSource
 import timber.log.Timber
 
-class RepositoriesDataSource(private val userName: String) :
+class RepositoriesDataSource(
+    private val userName: String,
+    private val gitHubDataSource: GitHubDataSource
+) :
     PageKeyedDataSource<String, GetRepositoriesQuery.Repository>() {
-
-    private var gitHubCoroutinesService = GitHubCoroutinesService()
 
     override fun loadInitial(
         params: LoadInitialParams<String>,
         callback: LoadInitialCallback<String, GetRepositoriesQuery.Repository>
     ) {
 
-        gitHubCoroutinesService.fetchRepositories(userName, params.requestedLoadSize, null, object :
+        gitHubDataSource.fetchRepositories(userName, params.requestedLoadSize, null, object :
             GitHubDataSource.ResultCallback<GetRepositoriesQuery.RepositoriesResult?> {
             override fun onResult(result: GetRepositoriesQuery.RepositoriesResult?) {
                 Timber.d("onResult $result")
@@ -39,7 +39,7 @@ class RepositoriesDataSource(private val userName: String) :
         callback: LoadCallback<String, GetRepositoriesQuery.Repository>
     ) {
 
-        gitHubCoroutinesService.fetchRepositories(
+        gitHubDataSource.fetchRepositories(
             userName,
             params.requestedLoadSize,
             params.key,

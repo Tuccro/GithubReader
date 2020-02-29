@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.tuccro.githubreader.databinding.FragmentSearchBinding
+import com.tuccro.githubreader.presentation.base.BaseFragment
 
-class SearchFragment : Fragment() {
+class SearchFragment : BaseFragment() {
 
     private lateinit var viewModel: SearchViewModel
 
@@ -18,7 +18,7 @@ class SearchFragment : Fragment() {
         retainInstance = true
 
         viewModel = activity?.run {
-            ViewModelProviders.of(this)[SearchViewModel::class.java]
+            ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
     }
 
