@@ -17,7 +17,6 @@ class ProfileFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
         viewModel = activity?.run {
             ViewModelProviders.of(this, factory)[ProfileViewModel::class.java]
         } ?: throw Exception("Invalid Activity")

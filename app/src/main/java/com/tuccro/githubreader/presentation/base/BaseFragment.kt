@@ -13,6 +13,7 @@ open class BaseFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectSelf()
+        retainInstance = true
     }
 
     private fun injectSelf() {

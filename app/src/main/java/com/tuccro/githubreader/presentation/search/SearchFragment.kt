@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.tuccro.githubreader.databinding.FragmentSearchBinding
 import com.tuccro.githubreader.presentation.base.BaseFragment
@@ -15,10 +15,9 @@ class SearchFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
 
         viewModel = activity?.run {
-            ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
+            ViewModelProvider(this, factory)[SearchViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
     }
 
